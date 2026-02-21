@@ -1,0 +1,304 @@
+/* =========================
+VARIABLES GLOBALES
+========================= */
+:root{
+    --bg-grad: linear-gradient(135deg,#e8f7eb,#dff3d9);
+    --primary:#2d6a4f;
+    --accent:#52b788;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --radius:12px;
+    --shadow: 0 8px 24px rgba(16,24,40,0.06);
+    --maxw:1100px;
+}
+
+/* =========================
+RESETEO Y ESTILOS BASE
+========================= */
+*{
+    box-sizing:border-box;
+}
+
+html, body{
+    height:100%;
+}
+
+body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    background:var(--bg-grad);
+    color:#07201a;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+}
+
+/* =========================
+CABECERA / NAVEGACIÓN
+========================= */
+.header{
+    background:linear-gradient(
+        90deg,
+        rgba(45,106,79,0.95),
+        rgba(45,106,79,0.85)
+    );
+    color:white;
+    padding:20px 12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    position:sticky;
+    top:0;
+    z-index:40;
+}
+
+.header .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#facc15;
+    font-size:16px;
+}
+
+.logo{
+    width:52px;
+    height:52px;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:700;
+}
+
+.nav{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.nav a{
+    font-size:15px;
+    font-weight:600;
+    color:#ffd166;
+    text-decoration:none;
+}
+
+/* =========================
+CONTENEDOR / LAYOUT
+========================= */
+main.container{
+    flex:1;
+}
+
+.container{
+    max-width:var(--maxw);
+    margin:28px auto;
+    padding:0 16px;
+}
+
+.section{
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    gap:18px;
+}
+
+.grid-3{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+}
+
+@media (min-width:768px){
+    .grid-3{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+/* =========================
+TARJETAS Y TEXTO
+========================= */
+.card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:14px;
+}
+
+.h2{
+    font-size:20px;
+    color:var(--primary);
+    margin:6px 0 12px;
+}
+
+.small{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* =========================
+PRODUCTOS
+========================= */
+.products {
+    width: 100%;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    display: grid;
+    gap: 18px;
+}
+
+.products .card {
+    padding: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* precio y botón abajo */
+}
+
+.thumb {
+    height: 150px;
+    border-radius: 8px;
+    background: #f3fbf4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.kv {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* =========================
+BOTONES Y ETIQUETAS
+========================= */
+.btn{
+    background:var(--primary);
+    color:white;
+    border:0;
+    padding:8px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
+    box-shadow:0 8px 18px rgba(45,106,79,0.14);
+}
+
+.btn-ghost{
+    background:transparent;
+    border:1px solid rgba(0,0,0,0.06);
+    padding:8px 12px;
+    border-radius:9px;
+}
+
+.badge{
+    background:var(--accent);
+    color:white;
+    padding:6px 8px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:13px;
+}
+
+/* =========================
+TABLAS
+========================= */
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table th,
+.table td{
+    padding:12px;
+    border-bottom:1px solid #eef6ee;
+    text-align:left;
+}
+
+.table th{
+    background:#f3faf4;
+    color:var(--primary);
+}
+
+/* =========================
+ELEMENTOS FLOTANTES
+========================= */
+.float-chat{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:var(--primary);
+    color:white;
+    border:0;
+    border-radius:50%;
+    width:60px;
+    height:60px;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 12px 30px rgba(16,24,40,0.15);
+    cursor:pointer;
+    z-index:50;
+}
+
+.cart-pill{
+    position:fixed;
+    top:18px;
+    right:18px;
+    background:var(--accent);
+    color:white;
+    padding:10px 14px;
+    border-radius:999px;
+    font-weight:800;
+    box-shadow:0 10px 26px rgba(16,24,40,0.12);
+}
+
+/* =========================
+PIE DE PÁGINA
+========================= */
+.footer{
+    max-width:var(--maxw);
+    margin:28px auto;
+    padding:18px;
+    text-align:center;
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* =========================
+RESPONSIVO
+========================= */
+@media (max-width:640px){
+    .nav{
+        display:none;
+    }
+
+    .header .wrap{
+        justify-content:space-between;
+    }
+}
+
+
