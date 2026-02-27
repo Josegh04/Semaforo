@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -16,14 +17,14 @@
         <div class="logo">B&J</div>
         <div style="font-weight:800">Bosque y Jardín</div>
       </a>
-<!--menu cambiar aqui-->
-<nav class="nav">
-  <a href="/">Inicio</a>
-  <a href="/productos">Productos</a>
-  <a href="/inventario">Inventario</a>
-</nav>
-  <!-- Carrito -->
-  <a href="carrito.html" class="cart-pill">🛒 2</a>
+      <!--menu cambiar aqui-->
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/productos">Productos</a>
+        <a href="/inventario">Inventario</a>
+      </nav>
+      <!-- Carrito -->
+      <a href="carrito.html" class="cart-pill">🛒 2</a>
     </div>
   </header>
 
@@ -127,6 +128,5 @@
 
 
 </body>
+
 </html>
-
-

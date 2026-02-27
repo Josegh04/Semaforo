@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
+/* INICIO */
 Route::get('/', function () {
     return view('index');
 });
 
+/* PRODUCTOS */
 Route::get('/productos', function () {
     $productos = DB::table('productos')
         ->leftJoin('categorias', 'productos.id_categoria', '=', 'categorias.id_categoria')
@@ -35,20 +37,31 @@ Route::get('/inventario', function () {
 /* FORM AGREGAR */
 Route::get('/inventario/agregar', function () {
     $categorias = DB::table('categorias')->get();
-    $estados = DB::table('catalogo_estado_producto')
-        ->where('nombre_estado', 'Descontinuado')
-        ->get();
-
-    return view('agregar_producto', compact('categorias', 'estados'));
+    return view('agregar_producto', compact('categorias'));
 });
 
-/* GUARDAR */
+/* GUARDAR PRODUCTO */
 Route::post('/inventario/agregar', function (Request $request) {
+
+    // VALIDACIONES
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string|max:255',
+        'precio' => 'required|numeric|min:1',
+        'stock' => 'required|integer|min:0',
+        'id_categoria' => 'required',
+        'id_estado' => 'nullable'
+    ]);
 
     $stock = $request->stock;
     $estado_manual = $request->id_estado;
 
-    $estado = $estado_manual ?? ($stock > 0 ? 1 : 2);
+    // LÓGICA DE ESTADO
+    if ($estado_manual == 3) {
+        $estado = 3;
+    } else {
+        $estado = ($stock > 0) ? 1 : 2; 
+    }
 
     DB::table('productos')->insert([
         'nombre' => $request->nombre,
@@ -62,20 +75,37 @@ Route::post('/inventario/agregar', function (Request $request) {
     return redirect('/inventario/agregar')->with('success', 'Producto agregado correctamente.');
 });
 
-/* FORMULARIO EDITAR */
+/* FORM EDITAR */
 Route::get('/inventario/editar/{id}', function($id){
     $producto = DB::table('productos')->where('id_producto', $id)->first();
     $categorias = DB::table('categorias')->get();
     $estados = DB::table('catalogo_estado_producto')->get();
+
     return view('editar_producto', compact('producto','categorias','estados'));
 });
 
 /* GUARDAR CAMBIOS */
 Route::post('/inventario/editar/{id}', function(Request $request, $id){
+
+    // VALIDACIONES
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string|max:255',
+        'precio' => 'required|numeric|min:1',
+        'stock' => 'required|integer|min:0',
+        'id_categoria' => 'required',
+        'id_estado' => 'nullable'
+    ]);
+
     $stock = $request->stock;
     $estado_manual = $request->id_estado;
 
-    $estado = $estado_manual ?? ($stock > 0 ? 1 : 2);
+    // LÓGICA DE ESTADO
+    if ($estado_manual == 3) {
+        $estado = 3;
+    } else {
+        $estado = ($stock > 0) ? 1 : 2;
+    }
 
     DB::table('productos')->where('id_producto', $id)->update([
         'nombre' => $request->nombre,
@@ -86,17 +116,16 @@ Route::post('/inventario/editar/{id}', function(Request $request, $id){
         'id_estado' => $estado
     ]);
 
-    // REDIRECCIONA AL MISMO EDITAR con mensaje
     return redirect("/inventario/editar/$id")->with('success', 'Producto actualizado correctamente.');
 });
 
-/* LISTA PARA ELIMINAR */
+/* LISTA ELIMINAR */
 Route::get('/inventario/eliminar', function () {
     $productos = DB::table('productos')->get();
     return view('eliminar_producto', compact('productos'));
 });
 
-/* ELIMINAR DEFINITIVO */
+/* CONFIRMAR ELIMINAR */
 Route::post('/inventario/eliminar/{id}', function ($id) {
     DB::table('productos')->where('id_producto', $id)->delete();
     return redirect('/inventario/eliminar')->with('success', 'Producto eliminado.');
