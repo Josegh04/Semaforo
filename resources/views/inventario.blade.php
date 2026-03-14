@@ -11,15 +11,18 @@
 
     <header class="header">
         <div class="wrap">
+
             <a href="/" class="brand">
                 <div class="logo">B&J</div>
-                <div style="font-weight:800">Empleados</div>
+                <div style="font-weight:800">Bosque y Jardín</div>
             </a>
 
             <nav class="nav">
+                <a href="/">Inicio</a>
+                <a href="/productos">Productos</a>
                 <a href="/inventario">Inventario</a>
-                <a href="/">Bosque y Jardín</a>
             </nav>
+
         </div>
     </header>
 
@@ -27,8 +30,8 @@
         <section class="card section">
 
             <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <a href="/inventario/agregar" class="btn">➕ Agregar</a>
-                <a href="/inventario/eliminar" class="btn">🗑 Eliminar</a>
+                <a href="/inventario/agregar" class="btn">Agregar</a>
+                <a href="/inventario/eliminar" class="btn">Eliminar</a>
             </div>
 
             @if(session('success'))
@@ -52,7 +55,14 @@
                 <tbody>
                     @foreach($productos as $p)
                     <tr>
-                        <td>{{ $p->nombre }}</td>
+                        <td style="display:flex; align-items:center; gap:8px;">
+                            @if($p->imagen)
+                                <img src="{{ asset('storage/'.$p->imagen) }}" alt="{{ $p->nombre }}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                            @else
+                                <span style="width:50px; height:50px; display:inline-block; background:#f3fbf4; border-radius:4px; text-align:center; line-height:50px; color:var(--primary); font-size:12px;">Sin imagen</span>
+                            @endif
+                            <span>{{ $p->nombre }}</span>
+                        </td>
                         <td>{{ $p->descripcion }}</td>
                         <td>{{ $p->categoria }}</td>
                         <td>${{ $p->precio }}</td>

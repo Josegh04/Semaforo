@@ -30,7 +30,13 @@
       <div class="grid grid-3 products">
         @foreach($productos as $p)
         <article class="card">
-          <div class="thumb">Prod</div>
+          <div class="thumb">
+            @if($p->imagen)
+            <img src="{{ asset('storage/'.$p->imagen) }}" alt="{{ $p->nombre }}">
+            @else
+            <span>Sin imagen</span>
+            @endif
+          </div>
 
           <h4>{{ $p->nombre }}</h4>
 
@@ -54,6 +60,9 @@
   <footer class="footer">
     Boulevard Norte No. 51-B, Col. Candelaria, Comitán de Domínguez, Chiapas
   </footer>
+
+  <!-- SCRIPT PARA AGRANDAR IMAGEN -->
+  <script src="{{ asset('js/imagen.js') }}"></script>
 
 </body>
 

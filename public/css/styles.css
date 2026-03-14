@@ -27,6 +27,8 @@ body{
     flex-direction:column;
 }
 
+/* HEADER */
+
 .header{
     background:linear-gradient(90deg,rgba(45,106,79,0.95),rgba(45,106,79,0.85));
     color:white;
@@ -52,6 +54,7 @@ body{
     gap:12px;
     color:#facc15;
     font-size:16px;
+    text-decoration:none;
 }
 
 .logo{
@@ -66,6 +69,8 @@ body{
     font-weight:700;
 }
 
+/* NAV */
+
 .nav{
     display:flex;
     gap:14px;
@@ -74,9 +79,13 @@ body{
 
 .nav a{
     font-size:15px;
-    font-weight:600;
-    color:#ffd166;
+    font-weight:700;
+    color:white;
     text-decoration:none;
+    background:var(--accent);
+    padding:8px 14px;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
 main.container{
@@ -93,6 +102,8 @@ main.container{
     margin-bottom:20px;
 }
 
+/* GRID */
+
 .grid{
     display:grid;
     gap:18px;
@@ -107,6 +118,8 @@ main.container{
         grid-template-columns:repeat(3,1fr);
     }
 }
+
+/* CARDS */
 
 .card{
     background:var(--card);
@@ -127,51 +140,60 @@ main.container{
 }
 
 /* PRODUCTOS */
-.products {
-    width: 100%;
-    max-width: var(--maxw);
-    margin: 0 auto;
-    display: grid;
-    gap: 18px;
+
+.products{
+    width:100%;
+    max-width:var(--maxw);
+    margin:0 auto;
+    display:grid;
+    gap:18px;
 }
 
-.products .card {
-    padding: 12px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.products .card{
+    padding:12px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
-.thumb {
-    height: 150px;
-    border-radius: 8px;
-    background: #f3fbf4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    font-weight: 700;
-    margin-bottom: 10px;
+/* CONTENEDOR DE IMAGEN */
+
+.thumb{
+    width:100%;
+    height:180px;
+    border-radius:8px;
+    background:#f3fbf4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    margin-bottom:10px;
 }
 
-.price {
-    font-weight: 800;
-    color: var(--primary);
+/* IMAGEN DEL PRODUCTO */
+
+.thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:8px;
 }
 
-.kv {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
+.price{
+    font-weight:800;
+    color:var(--primary);
 }
 
-.grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.kv{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
 }
 
 /* BOTONES */
+
 .btn{
     background:var(--primary);
     color:white;
@@ -181,6 +203,8 @@ main.container{
     cursor:pointer;
     font-weight:700;
     box-shadow:0 8px 18px rgba(45,106,79,0.14);
+    text-decoration:none;
+    display:inline-block;
 }
 
 .btn-ghost{
@@ -188,6 +212,8 @@ main.container{
     border:1px solid rgba(0,0,0,0.06);
     padding:8px 12px;
     border-radius:9px;
+    text-decoration:none;
+    display:inline-block;
 }
 
 .badge{
@@ -200,6 +226,7 @@ main.container{
 }
 
 /* TABLAS */
+
 .table{
     width:100%;
     border-collapse:collapse;
@@ -218,6 +245,7 @@ main.container{
 }
 
 /* FLOTANTES */
+
 .float-chat{
     position:fixed;
     right:20px;
@@ -250,6 +278,7 @@ main.container{
 }
 
 /* FOOTER */
+
 .footer{
     max-width:var(--maxw);
     margin:28px auto;
@@ -260,7 +289,9 @@ main.container{
 }
 
 /* RESPONSIVO */
+
 @media (max-width:640px){
+
     .nav{
         display:none;
     }
@@ -268,9 +299,11 @@ main.container{
     .header .wrap{
         justify-content:space-between;
     }
+
 }
 
 /* FORMULARIOS */
+
 .form-producto{
     max-width:600px;
     margin:0 auto;
@@ -319,4 +352,25 @@ main.container{
     border-radius:8px;
     margin-bottom:20px;
     text-align:center;
+}
+/* MODAL DE IMAGEN */
+#modal-img {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#modal-img img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }

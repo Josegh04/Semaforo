@@ -34,7 +34,7 @@ Route::get('/inventario', function () {
     return view('inventario', compact('productos'));
 });
 
-/* FORM AGREGAR */
+/* FORM AGREGAR PRODUCTO */
 Route::get('/inventario/agregar', function () {
     $categorias = DB::table('categorias')->get();
     return view('agregar_producto', compact('categorias'));
@@ -43,24 +43,28 @@ Route::get('/inventario/agregar', function () {
 /* GUARDAR PRODUCTO */
 Route::post('/inventario/agregar', function (Request $request) {
 
-    // VALIDACIONES
     $request->validate([
         'nombre' => 'required|string|max:255',
         'descripcion' => 'required|string|max:255',
         'precio' => 'required|numeric|min:1',
         'stock' => 'required|integer|min:0',
         'id_categoria' => 'required',
-        'id_estado' => 'nullable'
+        'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
     ]);
 
     $stock = $request->stock;
     $estado_manual = $request->id_estado;
 
-    // LÓGICA DE ESTADO
     if ($estado_manual == 3) {
         $estado = 3;
     } else {
-        $estado = ($stock > 0) ? 1 : 2; 
+        $estado = ($stock > 0) ? 1 : 2;
+    }
+
+    $imagen = null;
+
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen')->store('productos','public');
     }
 
     DB::table('productos')->insert([
@@ -69,7 +73,8 @@ Route::post('/inventario/agregar', function (Request $request) {
         'precio' => $request->precio,
         'stock' => $stock,
         'id_categoria' => $request->id_categoria,
-        'id_estado' => $estado
+        'id_estado' => $estado,
+        'imagen' => $imagen
     ]);
 
     return redirect('/inventario/agregar')->with('success', 'Producto agregado correctamente.');
@@ -87,34 +92,39 @@ Route::get('/inventario/editar/{id}', function($id){
 /* GUARDAR CAMBIOS */
 Route::post('/inventario/editar/{id}', function(Request $request, $id){
 
-    // VALIDACIONES
     $request->validate([
         'nombre' => 'required|string|max:255',
         'descripcion' => 'required|string|max:255',
         'precio' => 'required|numeric|min:1',
         'stock' => 'required|integer|min:0',
         'id_categoria' => 'required',
-        'id_estado' => 'nullable'
+        'imagen' => 'required|image|mimes:jpg,jpeg,png'
     ]);
 
     $stock = $request->stock;
     $estado_manual = $request->id_estado;
 
-    // LÓGICA DE ESTADO
     if ($estado_manual == 3) {
         $estado = 3;
     } else {
         $estado = ($stock > 0) ? 1 : 2;
     }
 
-    DB::table('productos')->where('id_producto', $id)->update([
+    $datos = [
         'nombre' => $request->nombre,
         'descripcion' => $request->descripcion,
         'precio' => $request->precio,
         'stock' => $stock,
         'id_categoria' => $request->id_categoria,
         'id_estado' => $estado
-    ]);
+    ];
+
+    if ($request->hasFile('imagen')) {
+        $imagen = $request->file('imagen')->store('productos','public');
+        $datos['imagen'] = $imagen;
+    }
+
+    DB::table('productos')->where('id_producto', $id)->update($datos);
 
     return redirect("/inventario/editar/$id")->with('success', 'Producto actualizado correctamente.');
 });
@@ -130,3 +140,58 @@ Route::post('/inventario/eliminar/{id}', function ($id) {
     DB::table('productos')->where('id_producto', $id)->delete();
     return redirect('/inventario/eliminar')->with('success', 'Producto eliminado.');
 });
+
+
+/* =============================== */
+/* CATEGORIAS */
+/* =============================== */
+
+/* FORM AGREGAR CATEGORIA */
+Route::get('/categorias/agregar', function () {
+    return view('agregar_categoria');
+});
+
+/* GUARDAR CATEGORIA */
+Route::post('/categorias/agregar', function (Request $request) {
+
+    $request->validate([
+        'nombre_categoria' => 'required|max:100'
+    ]);
+
+    DB::table('categorias')->insert([
+        'nombre_categoria' => $request->nombre_categoria
+    ]);
+
+    return redirect('/categorias/agregar')
+        ->with('success','Categoría agregada correctamente');
+});
+
+
+
+
+
+
+
+
+/*tareas esto es aparte del proyecto recordar */
+
+/*  Tarea 3 U3: Laboratorio de Intercambio de Datos actividad extra ajena a proyecto recuerda */
+Route::get('/saludo/{nombre}', function ($nombre) {
+    $nombreMayuscula = strtoupper($nombre);
+    return view('prueba', ['nombre' => $nombreMayuscula]);
+});
+
+/*Tarea 4 U3: Laboratorio de Resiliencia */
+use App\Http\Controllers\ErrorControladoController;
+
+Route::get('/prueba-error', [ErrorControladoController::class, 'prueba']);
+
+/*Tarea 4 U4: Laboratorio de Seguridad de API */
+use App\Http\Controllers\ApiLoginController;
+
+/* LABORATORIO SEGURIDAD API */
+Route::post('/api/login', [ApiLoginController::class, 'login'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+
+Route::get('/api/perfil', [ApiLoginController::class, 'perfil'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);

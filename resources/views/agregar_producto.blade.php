@@ -11,10 +11,18 @@
 
   <header class="header">
     <div class="wrap">
-      <a href="/inventario" class="brand">
+
+      <a href="/" class="brand">
         <div class="logo">B&J</div>
-        <div style="font-weight:800">Agregar producto</div>
+        <div style="font-weight:800">Bosque y Jardín</div>
       </a>
+
+      <nav class="nav">
+        <a href="/">Inicio</a>
+        <a href="/productos">Productos</a>
+        <a href="/inventario">Inventario</a>
+      </nav>
+
     </div>
   </header>
 
@@ -38,7 +46,7 @@
       </div>
       @endif
 
-      <form method="POST" action="/inventario/agregar" class="form-producto">
+      <form method="POST" action="/inventario/agregar" class="form-producto" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
@@ -49,6 +57,11 @@
         <div class="form-group">
           <label>Descripción</label>
           <input type="text" name="descripcion" required value="{{ old('descripcion') }}">
+        </div>
+
+        <div class="form-group">
+          <label>Imagen del producto</label>
+          <input type="file" name="imagen" accept="image/*" required>
         </div>
 
         <div class="form-row">
